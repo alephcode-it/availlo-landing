@@ -7,15 +7,34 @@
 
 body {
   font-family: "Poppins", sans-serif;
+  /* iOS-compatible background */
   background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 25%, #2c5aa0 50%, #1a365d 75%, #0f2027 100%);
   background-size: 400% 400%;
+  background-attachment: fixed; /* Add this for iOS */
   animation: gradientShift 15s ease infinite;
   min-height: 100vh;
+  min-height: -webkit-fill-available; /* iOS viewport fix */
   overflow-x: hidden;
   position: relative;
+  /* iOS-specific fixes */
+  -webkit-background-size: 400% 400%;
+  -webkit-transform: translateZ(0); /* Force hardware acceleration */
 }
 
 @keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* iOS-specific animation fix */
+@-webkit-keyframes gradientShift {
   0% {
     background-position: 0% 50%;
   }
@@ -42,7 +61,12 @@ body {
   position: absolute;
   border-radius: 50%;
   backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px); /* iOS fix */
   animation: float 6s ease-in-out infinite;
+  /* iOS performance optimization */
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  will-change: transform;
 }
 
 .shape-1 {
@@ -107,16 +131,26 @@ body {
   }
 }
 
+/* iOS-specific fixes */
+html {
+  height: 100%;
+  height: -webkit-fill-available;
+}
+
 /* Container */
 .container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 20px;
   min-height: 100vh;
+  min-height: -webkit-fill-available; /* iOS fix */
   display: flex;
   flex-direction: column;
   position: relative;
   z-index: 1;
+  /* iOS performance fixes */
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
 }
 
 /* Header */
@@ -131,10 +165,14 @@ body {
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
   border-radius: 20px;
   backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px); /* iOS fix */
   border: 1px solid rgba(255, 255, 255, 0.3);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1), 0 0 50px rgba(78, 205, 196, 0.3);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   position: relative;
+  /* iOS performance fixes */
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
 }
 
 .logo-container::before {
